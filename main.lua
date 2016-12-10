@@ -51,7 +51,7 @@ function love.load()
 
 	w = 800
 	h = 600
-	image = love.image.newImageData('wall.png')
+	image = love.graphics.newImage('redbrick.png')
 	imageHeight = image:getHeight()
 	imageWidth  = image:getWidth()
 
@@ -188,10 +188,12 @@ function love.update(dt)
 
 function love.draw()
 	for x = 0, w, 1 do
-		for y = drawScreenLineStart[x], drawScreenLineEnd[x], 1 do
-			love.graphics.setColor(image:getPixel(x % imageWidth, (y - drawScreenLineStart[x]) * imageHeight / (drawScreenLineEnd[x] - drawScreenLineStart[x]) /1.01 ))
+		--[[for y = drawScreenLineStart[x], drawScreenLineEnd[x], 1 do
+			love.graphics.setColor(image:getPixel(x % imageWidth, (y - drawScreenLineStart[x]) * imageHeight / (drawScreenLineEnd[x] - drawScreenLineStart[x] + 1) ))
 			love.graphics.points(x,y)
-		end
+		end]]--
+		quad = love.graphics.newQuad(x % imageWidth, 0, 1, imageHeight, imageWidth, imageHeight)
+		love.graphics.draw(image, quad, x, drawScreenLineStart[x], 0, 1, (drawScreenLineEnd[x] - drawScreenLineStart[x] + 1) / imageHeight,  0, 0)
 	end
 	love.graphics.setColor(255, 12, 12)
 	love.graphics.print("FPS: "..tostring(love.timer.getFPS( )), 10, 10, 0, 3)
